@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+  <meta name="theme-color" content="#2176FF" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="CONECTA" />
+  <title>CONECTA</title> 
+    <link rel="icon" href="https://uploads.onecompiler.io/44amdv2fa/44amdvnzz/LOgo%20-%20PNG.png" type="image/png" />
+  <link rel="apple-touch-icon" href="https://uploads.onecompiler.io/44amdv2fa/44amdvnzz/LOgo%20-%20PNG.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="responsive-overrides.css" />
+    <link rel="stylesheet" href="desktop-search.css" />
+    <link rel="stylesheet" href="campus-features.css" />
+  <link rel="stylesheet" href="polls.css" />
+    <link rel="manifest" href="manifest.json" />
+  <script src="./pwa-install.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet" />
+  <style>
+  @keyframes logoFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes logoFadeOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.8);
+  }
+}
+
+#authSection img {
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+     /* LOGO BORROSO AL INICIAR EN EL FONDO EN EL FONDO */
+    #splashScreen {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url(https://uploads.onecompiler.io/448k9pkeq/448kbzjkm/Logo_Oficial_Unicartagena.png);
+      background-repeat: no-repeat;
+      background-position: center 84%;
+      background-size: 85% auto;
+      filter: blur(0px);
+      z-index: 9999;
+    }
+    /* Overlay over blur for dim effect */
+    #splashOverlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+    }
+        #splashLogo {
+      width: 400px;
+      height: 400px; 
+      position: relative;
+      top: -40px;
+      background: url(https://uploads.onecompiler.io/44amdv2fa/44amdvnzz/LOgo%20-%20PNG.png) no-repeat center center;
+      background-size: contain;
+      animation: logoMoveGlow 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 6px #2176FF);
+      margin-bottom: 15px;
+    }
+    @keyframes logoMoveGlow {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        filter: drop-shadow(0 0 6px #2176FF);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(-15px) rotate(10deg);
+        filter: drop-shadow(0 0 20px #64b5f6);
+        opacity: 0.9;
+      }
+    }
+    /* Loading container */
+    #loadingContainer {
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 600;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 280px;
+      max-width: 90vw;
+    }
+    /* Running figure container */
+    #runnerContainer {
+      position: relative;
+      width: 270px;
+      height: 50px;
+      background: rgba(255 255 255 / 0.1);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 3px solid #2176FF;
+    }
+    /* Track line under figure */
+    #runnerTrack {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      height: 6px;
+      background: #2176ff44;
+      border-radius: 4px;
+    }
+    /* Runner (a simple animated gif or SVG sprite) */
+    #runner {
+      position: absolute;
+      bottom: 20px;
+      width: 40px;
+      height: 40px;
+      background: url("https://cdn-icons-png.flaticon.com/512/892/892781.png") no-repeat center center;
+      background-size: contain;
+      /* Animate running legs by CSS sprite or gif fallback */
+      animation: runLegs 1s steps(6) infinite;
+      /* Initially at left 0 */
+      left: 0px;
+      will-change: left;
+    }
+    @keyframes runLegs {
+      0%   { background-position-x: 0; }
+      90% { background-position-x: -240px; } /* 6 frames * 40px */
+    }
+    /* Loading text with fade animation */
+    #loadingText {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* Button icons as background images replacement */
+    .navBtn {
+      padding: 8px 14px;
+      font-size: 0; /* Hide text content spacing */
+      position: relative;
+    }
+  
+    #btnHome {
+      width: 100px;
+      height: 60px;
+      background: url("https://uploads.onecompiler.io/44amdv2fa/44amdvnzz/icono%20Inicio.png") no-repeat center center;
+      background-size: contain;
+    }
+    #btnNotifications {
+      width: 100px;
+      height: 60px;
+      background: url("https://uploads.onecompiler.io/44amdv2fa/44amdvnzz/icono%20Notificaci%C3%B3n.png") no-repeat center center;
+      background-size: contain;
+    }
+    #btnUsers {
+      width: 80px;
+      height: 60px;
+      background: url("https://uploads.onecompiler.io/44amdv2fa/44amdvnzz/icono%20Personas%20-%20%20Usuarios.png") no-repeat center center;
+      background-size: contain;
+    }
+    #btnProfile {
+      width: 80px;
+      height: 60px;
+      background: url("https://uploads.onecompiler.io/448k9pkeq/448kbzjkm/icono%20-%20Perfil.png") no-repeat center center;
+      background-size: contain;
+    }
+    #btnMessages {
+      width: 80px;
+      height: 60px;
+      background: url("https://uploads.onecompiler.io/44amdv2fa/44amdvnzz/icono%20-%20Mensajes.png") no-repeat center center;
+      background-size: contain;
+    }
+    #btnSettings {
+      width: 80px;
+      height: 60px;
+      background: url("https://uploads.onecompiler.io/44amdv2fa/44amdvnzz/Icono%20-%20Configuraci%C3%B3n.png") no-repeat center center;
+      background-size: contain;
+    }
+    
+    /* Remove button text spacing if any */
+    .navBtn span,
+    .navBtn svg {
+      display: none;
+    }
+
+    /* Post form with image upload icon & preview */
+    #postForm {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+    }
+
+   /* En móvil, poner textarea arriba y botones abajo */
+@media (max-width: 480px) {
+  #postForm {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  #postInput {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+  }
+  #postForm > button,  /* botón publicar */
+  #postImageBtn {      /* icono de imagen */
+    width: auto;
+  }
+  /* Contenedor de botones para que estén en línea abajo */
+  #postButtonsContainer {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+}
+
+
+    #postImageBtn {
+      font-size: 22px;
+      cursor: pointer;
+      user-select: none;
+      background: transparent;
+      border: none;
+      padding: 0 6px 0 6px;
+      height: 40px;
+      line-height: 40px;
+      color: #2176FF;
+      border-radius: 6px;
+      flex-shrink: 0;
+      left: -5px;
+      width: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s ease;
+    }
+    #postImageBtn:hover {
+      background-color: #2176FF22;
+    }
+
+    #postInput {
+      flex-grow: 1;
+      min-height: 40px;
+      font-size: 14px;
+      box-sizing: border-box;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      padding: 8px 10px;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    /* Hide the default file input */
+    #postImageInput {
+      display: none;
+    }
+
+    /* Preview container */
+    #postImagePreviewContainer {
+      display: none;
+      position: relative;
+      max-width: 100%;
+      margin-top: 8px;
+      border: 1px solid #2176FF;
+      border-radius: 8px;
+      overflow: hidden;
+      max-height: 320px; /* Max height for preview */
+    }
+
+    #postImagePreview {
+      display: block;
+      max-width: 100%;
+      max-height: 320px;
+      object-fit: contain;
+    }
+
+   #uploadPostImageBtn {
+  display: none;
+  position: absolute;
+  margin-top: 6px;
+  padding: 8px 16px;
+  padding-bottom: 48px; /* espacio para el botón debajo de la imagen */
+  background: #2176FF;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.3s ease;
+  box-sizing: border-box;
+}
+
+#uploadPostImageBtn:hover {
+  background: #0f59d4;
+}
+
+#uploadPostImageBtn {
+  display: none;
+  position: absolute;  /* posición fija dentro del contenedor */
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  background: #2176FF;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.3s ease;
+  z-index: 10;
+  width: auto;
+  min-width: 120px;
+}
+
+@media (max-width: 480px) {
+  #postImagePreviewContainer {
+    max-height: 480px; 
+  }
+  #uploadPostImageBtn {
+    position: fixed; /* o absoluto para mantener visible */
+    bottom: 12px;    /* distancia desde abajo de la pantalla */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+    max-width: 280px;
+    font-size: 16px;
+    z-index: 10000;  /* asegurarse que quede encima */
+  }
+}
+
+    /* Responsive for mobile */
+    @media (max-width: 480px) {
+      #postForm {
+        gap: 2px;
+      }
+      #postImageBtn {
+        width: 38px;
+        height: 38px;
+        font-size: 20px;
+        padding: 0;
+        line-height: 38px;
+      }
+      #postInput {
+        font-size: 13px;
+        min-height: 38px;
+        border-radius: 5px;
+      }
+      #postForm button[type="submit"] {
+        padding: 8px 14px;
+        font-size: 13px;
+        min-width: 75px;
+        border-radius: 5px;
+      }
+    }
+    </style>
+  <style>
+    .settingsOption { display:flex; align-items:center; gap:8px; width:100%; margin:5px 0; padding:11px 12px; border:1px solid #e3ebf7; border-radius:12px; background:#f7faff; color:#24344f; text-align:left; font-size:13px; cursor:pointer; }
+    .settingsOption:hover { background:#eaf2ff; transform:translateY(-1px); }
+    #settingsMenu { padding:12px !important; border:1px solid rgba(33,118,255,.16); border-radius:18px !important; box-shadow:0 18px 45px rgba(20,60,120,.2) !important; }
+    #settingsMenu #btnThemeToggle { display:flex; align-items:center; justify-content:center; width:42px; height:36px; margin:0 auto 8px; border-radius:10px; background:#edf5ff; }
+    .settings-modal { position:fixed; inset:0; z-index:23000; display:flex; align-items:center; justify-content:center; padding:20px; }
+    .settings-modal.hidden { display:none !important; }
+    .settings-modal-backdrop { position:absolute; inset:0; background:rgba(9,23,52,.62); backdrop-filter:blur(10px); }
+    .settings-panel,.settings-detail-panel { position:relative; z-index:1; width:min(620px,100%); max-height:min(760px,90dvh); overflow:auto; padding:28px; border-radius:26px; background:linear-gradient(145deg,#fff,#edf6ff); color:#17233c; box-shadow:0 28px 80px rgba(0,0,0,.28); animation:settingsIn .3s ease both; }
+    .settings-detail-panel { width:min(560px,100%); }
+    .settings-panel-heading { display:flex; align-items:center; gap:14px; margin-bottom:22px; }
+    .settings-panel-heading > span { display:grid; place-items:center; width:52px; height:52px; border-radius:16px; background:linear-gradient(135deg,#2176ff,#73d9ff); font-size:27px; }
+    .settings-panel-heading small { color:#71809a; font-weight:700; }.settings-panel h2,.settings-detail-panel h2 { margin:3px 0 0; font-size:25px; }
+    .settings-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }.settings-card { display:flex; flex-direction:column; gap:7px; min-height:92px; padding:16px; border:1px solid #dce7f7; border-radius:16px; background:rgba(255,255,255,.8); color:#24344f; text-align:left; cursor:pointer; }.settings-card:hover { border-color:#2176ff; transform:translateY(-2px); box-shadow:0 10px 22px rgba(33,118,255,.12); }.settings-card span { color:#71809a; font-size:12px; font-weight:400; }.settings-close { position:absolute; top:14px; right:14px; width:36px !important; height:36px; padding:0 !important; border-radius:11px !important; background:#eaf2ff !important; color:#2176ff !important; font-size:23px !important; }.settings-detail-content { line-height:1.55; color:#52627d; }.settings-detail-content label { display:block; margin:14px 0; font-weight:700; }.settings-detail-content select { margin-top:7px; }.settings-action { width:auto !important; margin:10px 0 0; padding:11px 16px !important; border-radius:11px !important; background:#2176ff !important; color:#fff !important; }.settings-copy-row { display:flex; gap:8px; align-items:center; }.settings-copy-row input { flex:1; min-width:0; }.privacy-note { padding:12px; border-radius:12px; background:#f1f6ff; font-size:13px; }
+    @keyframes settingsIn { from{opacity:0;transform:translateY(15px) scale(.97)} to{opacity:1;transform:none} }
+    [data-theme="dark"] .settings-panel,[data-theme="dark"] .settings-detail-panel { background:#182a48; color:#f2f6ff; } [data-theme="dark"] .settings-card,[data-theme="dark"] .settingsOption { background:#203759; border-color:#40577e; color:#f2f6ff; } [data-theme="dark"] .settings-card span,[data-theme="dark"] .settings-detail-content { color:#b9c9e4; }
+    @media(max-width:600px){.settings-grid{grid-template-columns:1fr}.settings-panel,.settings-detail-panel{padding:22px 16px;border-radius:20px}}
+  </style>
+</head>
+<body>
+
+  <!-- Splash screen blur and overlay -->
+  <div id="splashScreen"></div>
+  <div id="splashOverlay" role="alert" aria-live="assertive" aria-busy="true">
+    <div id="splashLogo" aria-label="Logo Conecta animado"></div>
+    <div id="loadingContainer" aria-label="Cargando aplicación">
+      <div>Loading... <span id="loadingPercent">0%</span></div>
+      <div id="runnerContainer" aria-hidden="true">
+        <div id="runnerTrack"></div>
+        <div id="runner"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="app" style="display:none; flex-direction: column;">
+  
+    <!-- Barra superior fija -->
+  
+  <header>
+  <div class="brand-area" style="display:flex; align-items:center; gap: 8px; width: 100%; justify-content: center; position: relative;">
+    <img id="logoConecta" class="official-refresh-logo" src="https://uploads.onecompiler.io/44amdv2fa/44amdvnzz/LOgo%20-%20PNG.png" alt="Logo Conecta" style="height: 70px; width: auto; position: absolute; left: 37px; top: -18px; background: transparent; object-fit: contain;" />
+    <div id="logoWrapper" style="position: relative; display: inline-block;">
+      <span id="logoBadge" aria-label="Notificaciones totales" style="
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: red;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        border-radius: 50%;
+        padding: 4px 7px;
+        user-select: none;
+        display: none;
+        min-width: 24px;
+        text-align: center;
+        box-shadow: 0 0 6px rgba(0,0,0,0.3);
+      ">0</span>
+    </div>
+
+    <!-- Reemplazamos el texto 'CONECTA' por la imagen del ícono -->
+    <img src="https://uploads.onecompiler.io/448k9pkeq/448kbzjkm/cone.png" alt="Ícono Conecta" style="height: 28px; width: auto; object-fit: contain; left: 40px; background: none; user-select: none;" />
+    <div id="desktopSearch" class="desktop-search" aria-label="Buscar en CONECTA">
+      <div class="search-fields">
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input id="globalPersonSearch" type="search" placeholder="Buscar persona por nombre" autocomplete="off" aria-label="Buscar persona por nombre" />
+        </label>
+        <label class="search-box date-search-box">
+          <span aria-hidden="true">▣</span>
+          <input id="globalPostDateSearch" type="date" aria-label="Buscar publicaciones por fecha" />
+        </label>
+      </div>
+      <div id="globalSearchResults" class="global-search-results" role="listbox" aria-live="polite"></div>
+    </div>
+  </div>
+  <nav>
+    <div id="navButtonsWrapper">
+      <button id="btnHome" title="Inicio" class="navBtn active" aria-label="Inicio"></button>
+      <button id="btnNotifications" title="Notificaciones" class="navBtn" aria-label="Notificaciones">
+        <span id="notificationBadge" class="badge hidden">0</span>
+      </button>
+      <button id="btnUsers" title="Usuarios" class="navBtn" aria-label="Usuarios"></button>
+      <button id="btnProfile" title="Perfil" class="navBtn" aria-label="Perfil de usuario"></button>
+            <button id="btnMessages" title="Mensajes" class="navBtn" aria-label="Mensajes"></button>
+      <div id="settingsContainer" style="position: relative;">
+        <button id="btnSettings" title="Ajustes" class="navBtn" aria-label="Ajustes"></button>
+        <div id="settingsMenu" class="hidden" style="position: absolute; top: 38px; right: 0; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.15); border-radius: 6px; width: 200px; user-select: none; z-index: 10000; padding: 10px; box-sizing: border-box;">
+          <button id="btnThemeToggle" title="Modo claro/oscuro" aria-label="Alternar tema visual" style="background: none; border: none; cursor: pointer; font-size: 18px; margin-bottom: 10px; user-select:none;">🌙</button>
+                    <button id="btnManual" class="settingsOption" style="width: 100%; margin-bottom: 6px;">Manual de uso</button>
+          <button id="btnOpenSettings" class="settingsOption" type="button">⚙️ Configuración</button>
+          <button id="btnInviteFriend" class="settingsOption" type="button">🤝 Invitar amigo</button>
+          <button id="btnAssistance" class="settingsOption" style="
+              width: 100%;
+              background-color: #e63946;
+              color: white;
+              font-weight: 600;
+              padding: 10px;
+              border: none;
+              border-radius: 6px;
+              cursor: pointer;
+              user-select: none;
+              margin-top: 6px;
+            " aria-label="Solicitar asistencia vía WhatsApp">Asistencia</button>
+          <button id="btnLogout" class="settingsOption" style="width: 100%;">Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<section id="campusFeatures" class="campus-features hidden" aria-label="Funciones universitarias">
+  <div class="campus-features-header">
+    <div><span>COMUNIDAD CONECTA</span><h2>Vida universitaria</h2></div>
+    <button id="closeCampusFeatures" type="button" aria-label="Cerrar comunidad">×</button>
+  </div>
+  <div class="campus-features-grid">
+    <section class="campus-card" aria-labelledby="eventsHeading">
+      <h3 id="eventsHeading">Eventos universitarios</h3>
+      <form id="eventForm"><input id="eventTitle" maxlength="100" required placeholder="Nombre del evento"><textarea id="eventDescription" maxlength="500" placeholder="Detalles del evento"></textarea><input id="eventDate" type="datetime-local" required><button type="submit">Programar evento</button></form>
+      <div id="eventsList" class="campus-list" aria-live="polite"></div>
+    </section>
+    <section class="campus-card" aria-labelledby="moderationHeading">
+      <h3 id="moderationHeading">Reportar o bloquear</h3>
+      <form id="moderationForm"><input id="moderationUserSearch" type="search" autocomplete="off" required placeholder="Buscar persona por nombre" aria-label="Buscar persona por nombre"><input id="moderationUid" type="hidden"><div id="moderationSuggestions" class="campus-member-suggestions" role="listbox" aria-label="Resultados de personas"></div><select id="reportReason"><option value="harassment">Acoso</option><option value="spam">Spam</option><option value="unsafe">Contenido inapropiado</option><option value="other">Otro</option></select><button type="submit">Enviar reporte</button><button id="blockUserBtn" type="button" class="danger-action">Bloquear usuario</button></form>
+      <p id="moderationStatus" role="status"></p>
+      <div id="blockedUsersList" class="campus-list"></div>
+    </section>
+  </div>
+  
+</section>
+
+<!-- Modal términos y condiciones -->
+<div id="termsModal" role="dialog" aria-modal="true" aria-labelledby="termsTitle" aria-describedby="termsDesc" style="display:none; position: fixed; top:0; left:0; width:100vw; height:100vh; background: rgba(0,0,0,0.6); z-index: 12000; justify-content: center; align-items: center;">
+  <div style="background: white; max-width: 480px; max-height: 80vh; overflow-y: auto; border-radius: 12px; padding: 20px; box-sizing: border-box; font-family: Arial, sans-serif; color: #222;">
+    <h2 id="termsTitle">Términos y condiciones de CONECTA</h2>
+    <p id="termsDesc" style="font-size: 14px; line-height: 1.4; white-space: pre-wrap;">
+Al acceder y utilizar la plataforma CONECTA, el usuario acepta de manera integral los presentes términos y condiciones que rigen el uso de esta red social. CONECTA está diseñada como un ecosistema digital destinado a facilitar la comunicación en tiempo real, permitiendo a los usuarios establecer vínculos mediante la creación de redes de amigos, el intercambio de mensajes instantáneos y la publicación de contenido multimedia e interacciones sociales. En cumplimiento con las normativas vigentes de protección de datos personales, la plataforma se compromete a tratar la información del perfil, las listas de contactos y el contenido generado por el usuario bajo los más estrictos principios de seguridad, confidencialidad y transparencia. El usuario reconoce que es el único responsable de la veracidad de la información proporcionada y del comportamiento ético dentro de la comunidad, garantizando que sus publicaciones respeten los derechos de terceros y las normas de convivencia digital. CONECTA implementa medidas técnicas de vanguardia para asegurar la privacidad de los datos; no obstante, el usuario es responsable de la gestión de sus credenciales de acceso. La plataforma se reserva el derecho de moderar el contenido para asegurar un ambiente seguro y de actualizar estos términos para adaptarlos a la evolución tecnológica o cambios legislativos, manteniendo siempre la integridad y la protección de la identidad de sus miembros como pilares fundamentales del servicio.
+    </p>
+    <label style="display: flex; align-items: center; gap: 8px; margin-top: 12px; cursor: pointer;">
+      <input type="checkbox" id="acceptTermsCheckbox" aria-required="true"/>
+      <span>Acepto los Términos y condiciones</span>
+    </label>
+    <button id="acceptTermsBtn" disabled style="margin-top: 15px; padding: 10px 18px; background: #2176FF; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; user-select: none;">Aceptar</button>
+  </div>
+</div>
+
+    <!-- Post section with photo upload -->
+      <section id="postSection" class="hidden">
+      <section id="storiesTraySection" class="stories-tray-section" aria-label="Historias recientes">
+    <div class="stories-tray-heading"><h2>Historias</h2><span>Disponibles durante 24 horas</span></div>
+    <div id="storiesTray" class="stories-tray" role="list" aria-live="polite"></div>
+  </section>
+
+  <aside id="academicPortalsPreview" class="academic-portals-preview" aria-label="Portales académicos">
+    <div class="academic-portals-preview-top">
+      <span class="academic-portals-preview-icon" aria-hidden="true">📚</span>
+      <span class="academic-portals-preview-badge">ACADÉMICO</span>
+    </div>
+    <div class="academic-portals-preview-copy">
+      <h2>Portales académicos</h2>
+    </div>
+    <nav class="academic-portals-preview-links" aria-label="Accesos directos a portales académicos">
+      <a href="https://sima.unicartagena.edu.co/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🎓</span> SIMA</a>
+      <a href="https://sma.unicartagena.edu.co:8443/Smaix12/vista/mainMenu.jsp#" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🗂️</span> SMA</a>
+      <a href="https://ingles.unicartagena.edu.co/login/index.php" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🌐</span> SIMA Inglés</a>
+      <a href="https://unicartagena.edu.co/biblioteca" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">📖</span> Biblioteca</a>
+    </nav>
+  </aside>
+
+  <section class="profile-story-composer" aria-labelledby="profileStoryHeading">
+    <h4 id="profileStoryHeading" class="story-compact-heading">Comparte una historia</h4>
+    <form id="storyForm">
+      <div class="story-entry-options" aria-label="Elige el tipo de historia">
+        <label id="storyUploadZone" class="story-choice story-photo-choice" for="storyMediaInput" tabindex="0" title="Seleccionar foto o video para tu historia">
+          <img src="https://uploads.onecompiler.io/448k9pkeq/448kbzjkm/%C3%83%C2%8Dcono%20de%20agg%20historia_.png" alt="">
+          <span>Añadir foto o video</span>
+          <input id="storyMediaInput" type="file" accept="image/*,video/*" aria-label="Seleccionar foto o video para la historia">
+        </label>
+        <button id="openStoryTextBtn" class="story-choice story-text-choice" type="button" aria-expanded="false" aria-controls="storyTextPanel">
+          <span class="story-text-choice-icon" aria-hidden="true">T</span>
+          <span>Historia de texto</span>
+        </button>
+      </div>
+      <div id="storyTextPanel" class="story-text-panel hidden">
+        <label class="story-text-label" for="storyText">Tu mensaje</label>
+        <textarea id="storyText" maxlength="500" rows="2" placeholder="¿Qué quieres contar hoy?" aria-describedby="storyCharacterCount storyMediaStatus"></textarea>
+        <div class="story-editor-meta"><span>Disponible durante 24 horas</span><span id="storyCharacterCount" aria-live="polite">0/500</span></div>
+        <fieldset class="story-background-picker">
+          <legend>Fondo de la historia</legend>
+          <div class="story-background-options" role="group" aria-label="Selecciona el color de fondo">
+            <button type="button" class="story-background-swatch is-selected" data-story-background="#2176ff" style="--swatch-color:#2176ff" aria-label="Azul" aria-pressed="true"></button>
+            <button type="button" class="story-background-swatch" data-story-background="#7c3aed" style="--swatch-color:#7c3aed" aria-label="Violeta" aria-pressed="false"></button>
+            <button type="button" class="story-background-swatch" data-story-background="#e11d48" style="--swatch-color:#e11d48" aria-label="Rosa" aria-pressed="false"></button>
+            <button type="button" class="story-background-swatch" data-story-background="#ea580c" style="--swatch-color:#ea580c" aria-label="Naranja" aria-pressed="false"></button>
+            <button type="button" class="story-background-swatch" data-story-background="#059669" style="--swatch-color:#059669" aria-label="Verde" aria-pressed="false"></button>
+            <label class="story-custom-color" title="Elegir otro color">＋<input id="storyBackgroundColor" type="color" value="#2176ff" aria-label="Elegir color personalizado"></label>
+          </div>
+        </fieldset>
+      </div>
+      <div id="storyMediaPreview" class="story-media-preview hidden" aria-live="polite">
+        <div id="storyMediaPreviewContent" class="story-media-preview-content"></div>
+        <button id="clearStoryMediaBtn" class="story-media-clear" type="button" aria-label="Quitar archivo seleccionado">Quitar archivo</button>
+      </div>
+      <small id="storyMediaStatus" class="story-media-status" role="status" aria-live="polite">Elige una foto o crea una historia de texto.</small>
+      <button id="publishStoryBtn" class="hidden" type="submit"><span aria-hidden="true">↗</span> Publicar historia</button>
+    </form>
+  </section>
+  <style>
+    .profile-story-composer {
+      width: min(100%, 900px) !important;
+      margin: 0 auto 14px !important;
+      padding: 14px 16px !important;
+      border: 1px solid rgba(33,118,255,.16) !important;
+      border-radius: 18px !important;
+      background: rgba(255,255,255,.92) !important;
+      box-shadow: 0 8px 24px rgba(33,78,145,.09) !important;
+    }
+    .story-compact-heading { margin: 0 0 10px !important; color: #293955; font-size: 14px !important; font-weight: 800; }
+    #storyForm { display: grid; gap: 10px; margin: 0 !important; }
+    .story-entry-options { display: flex; align-items: center; gap: 10px; }
+    #storyForm label.story-choice, #storyForm button.story-choice {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      width: auto !important;
+      margin: 0 !important;
+      padding: 7px 13px !important;
+      border: 1px solid #e0e9f5 !important;
+      border-radius: 13px !important;
+      background: #f7faff !important;
+      color: #354762 !important;
+      font-size: 13px !important;
+      font-weight: 750 !important;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    #storyForm label.story-choice:hover, #storyForm button.story-choice:hover { transform: translateY(-1px); border-color: #9fc2ff !important; background: #edf5ff !important; }
+    #storyForm label.story-choice::before { content: none !important; display: none !important; }
+    #storyForm label.story-choice:focus-visible, #storyForm button.story-choice:focus-visible { outline: 3px solid rgba(33,118,255,.28); outline-offset: 2px; }
+    .story-photo-choice img { width: 30px; height: 30px; object-fit: contain; }
+    .story-text-choice-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(135deg,#e6efff,#d9e7ff); color: #2176ff; font-size: 16px; font-weight: 900; }
+    #storyMediaInput { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0 !important; }
+    .story-text-panel { display: grid; gap: 6px; padding: 11px; border: 1px solid #e2eaf5; border-radius: 13px; background: #fbfdff; }
+    .story-text-label { margin: 0 !important; color: #52627d; font-size: 12px; font-weight: 800; }
+    #storyText { min-height: 68px !important; margin: 0 !important; padding: 10px 12px !important; border: 1px solid #dbe5f2 !important; border-radius: 10px !important; background: var(--story-background, #fff) !important; color: #17233c; font-size: 14px !important; line-height: 1.4; resize: vertical; transition: background-color .18s ease, color .18s ease; }
+    .story-editor-meta { display: flex; justify-content: space-between; gap: 8px; color: #8190a8; font-size: 11px; }
+    #storyCharacterCount { font-variant-numeric: tabular-nums; }
+    .story-background-picker { min-width: 0; margin: 2px 0 0; padding: 0; border: 0; }
+    .story-background-picker legend { margin-bottom: 7px; color: #52627d; font-size: 11px; font-weight: 800; }
+    .story-background-options { display: flex; align-items: center; gap: 9px; }
+    #storyForm .story-background-swatch { display: block; width: 27px; height: 27px; min-width: 27px; margin: 0; padding: 0; border: 3px solid #fff !important; border-radius: 50%; background: var(--swatch-color) !important; box-shadow: 0 0 0 1px #cbd6e5; cursor: pointer; }
+    #storyForm .story-background-swatch.is-selected { box-shadow: 0 0 0 2px #2176ff; transform: scale(1.08); }
+    .story-custom-color { position: relative; display: grid !important; place-items: center; width: 28px; height: 28px; margin: 0 !important; padding: 0 !important; border: 1px dashed #9aa9bd; border-radius: 50%; color: #60718b; font-size: 20px; line-height: 1; cursor: pointer; overflow: hidden; }
+    .story-custom-color input { position: absolute; inset: -8px; width: 44px !important; height: 44px; margin: 0 !important; padding: 0 !important; opacity: 0; cursor: pointer; }
+    [data-theme="dark"] .story-background-picker legend { color: #b9c9e4; }
+    .story-media-preview { padding: 8px; border: 1px solid #e1eaf6; border-radius: 13px; background: #f6f9fe; }
+    .story-media-preview-content { display: grid; max-height: 240px; place-items: center; overflow: hidden; border-radius: 9px; background: #e8eef7; }
+    .story-media-preview-item { display: block; width: 100%; max-height: 230px; object-fit: contain; }
+    .story-media-clear { width: auto !important; margin: 7px 0 0 auto !important; padding: 7px 10px !important; border-radius: 9px !important; background: #fff7f8 !important; color: #bd3952 !important; font-size: 12px !important; }
+    .story-media-status { min-height: 16px; margin: 0 !important; color: #71809a; font-size: 11px; }
+    #publishStoryBtn { width: auto !important; min-height: 40px; margin: 0 !important; padding: 9px 16px !important; justify-self: end; border: 0 !important; border-radius: 11px !important; background: linear-gradient(135deg,#2176ff,#5a9bff) !important; color: #fff !important; font-size: 13px !important; font-weight: 800 !important; box-shadow: 0 6px 14px rgba(33,118,255,.2); }
+    [data-theme="dark"] .profile-story-composer { background: #1a2b49 !important; border-color: #3b557b !important; }
+    [data-theme="dark"] .story-compact-heading { color: #f2f6ff; }
+    [data-theme="dark"] #storyForm label.story-choice, [data-theme="dark"] #storyForm button.story-choice { background: #203759 !important; border-color: #40577e !important; color: #e8f0ff !important; }
+    [data-theme="dark"] #storyForm label.story-choice:hover, [data-theme="dark"] #storyForm button.story-choice:hover { background: #29466f !important; }
+    [data-theme="dark"] .story-text-panel { background: #172a49; border-color: #3d5a83; }
+    [data-theme="dark"] .story-text-label { color: #b9c9e4; }
+    [data-theme="dark"] #storyText { background: #203759 !important; border-color: #40577e !important; color: #f4f8ff !important; }
+    [data-theme="dark"] .story-media-status { color: #b9c9e4; }
+    .story-viewer-content.story-text-background { position: relative; min-height: min(80dvh, 760px); background: var(--story-background, #2176ff) !important; }
+    .story-viewer-content.story-text-background #storyViewerText { position: absolute; top: 50%; left: 50%; width: min(78%, 520px); max-height: 68%; margin: 0; overflow-y: auto; transform: translate(-50%, -50%); color: #fff; text-align: center; white-space: pre-wrap; overflow-wrap: anywhere; font-size: clamp(24px, 5vw, 38px); font-weight: 750; line-height: 1.35; text-shadow: 0 2px 12px rgba(0,0,0,.2); }
+    .story-viewer-content.story-text-background #storyViewerMedia:empty { display: none; }
+    @media (max-width: 480px) {
+      .profile-story-composer { margin-bottom: 10px !important; padding: 11px 12px !important; border-radius: 15px !important; }
+      .story-entry-options { gap: 8px; }
+      .story-choice { min-height: 42px; padding: 6px 10px !important; font-size: 12px !important; }
+      .story-photo-choice img, .story-text-choice-icon { width: 27px; height: 27px; }
+    }
+  </style>
+
+ <!-- Dentro de <section id="postSection"> -->
+<form id="postForm" novalidate
+  style="display: flex; align-items: center; gap: 6px; margin-bottom: 12px; box-sizing: border-box; padding: 0 12px;">
+
+  <!-- Icono para agregar imagen a la izquierda con tamaño aún mayor -->
+  <button type="button" id="postImageBtn" aria-label="Agregar imagen" title="Agregar imagen"
+    style="background: transparent; border: none; padding: 0; height: 56px; line-height: 70px; cursor: pointer; user-select: none; flex-shrink: 0; width: 70px; display: flex; justify-content: center; align-items: center; transition: background-color 0.3s ease;">
+    <img src="https://uploads.onecompiler.io/448k9pkeq/448kbzjkm/ChatGPT%20Image%2028%20abr%202026,%2016_39_28.png" alt="Icono agregar foto" style="max-width: 100%; max-height: 70px; object-fit: contain;">
+  </button>
+
+  <!-- Contenedor del textarea y selector privacidad centrado con 70% ancho -->
+  <div style="position: relative; flex-grow: 1; max-width: 55%;">
+    <textarea id="postInput" placeholder="¿Qué tienes en mente?" rows="1" autocomplete="off" aria-label="Texto de la publicación"
+      style="width: 100%; min-height: 50px; font-size: 15px; box-sizing: border-box; border-radius: 10px; margin-left: -10px;
+             border: 1px solid #ccc; padding: 24px 10px 10px 9px; resize: vertical; font-family: inherit;"></textarea>
+
+    <select id="postPrivacy" aria-label="Privacidad de la publicación" title="Privacidad"
+      style="position: absolute; top: 2px; left: 2px; font-size: 9px; padding: 2px 6px; border-radius: 20px;
+             border: 1px solid #ccc; background: white; cursor: pointer; width: auto; min-width: 13px; user-select: none;">
+      <option value="public" selected>Público</option>
+      <option value="friends">Amigos</option>
+      <option value="private">Solo yo</option>
+    </select>
+  </div>
+
+  <!-- Botón publicar a la derecha con margen para no pegar al borde -->
+  <button type="submit" id="postSubmitBtn"
+    style="min-width: 80px; padding: 8px 20px; font-size: 17px; border-radius: 15px; background: #2176FF; color: white; 
+           border: none; cursor: pointer; font-weight: 400; user-select: none; flex-shrink: 0;">
+    Publicar
+  </button>
+
+    <input type="file" id="postImageInput" accept="image/*,video/*" multiple aria-label="Seleccionar varias imágenes para publicar" style="display:none" />
+</form>
+
+  <details id="pollComposer" class="poll-composer">
+    <summary><span aria-hidden="true">▤</span> Crear encuesta</summary>
+    <form id="pollForm">
+      <label class="poll-field-label" for="pollQuestion">Pregunta principal</label>
+      <input id="pollQuestion" type="text" maxlength="180" required placeholder="¿Qué quieres preguntar?">
+      <div class="poll-options-heading"><span>Opciones de respuesta</span><small>De 2 a 8 opciones</small></div>
+      <div id="pollOptions" class="poll-options-editor"></div>
+      <button id="addPollOption" class="poll-add-option" type="button">＋ Añadir opción</button>
+      <div class="poll-settings-row">
+        <label>Duración
+          <select id="pollDuration"><option value="24">24 horas</option><option value="72">3 días</option><option value="168">7 días</option></select>
+        </label>
+                <label>Privacidad de participantes
+          <select id="pollVisibility"><option value="public">Quién votó · visible solo para ti</option></select>
+        </label>
+      </div>
+      <fieldset class="poll-color-picker">
+        <legend>Color de la encuesta</legend>
+        <div class="poll-color-options" role="group" aria-label="Elige el color de la encuesta">
+          <button class="poll-color-swatch is-selected" type="button" data-poll-color="#2176ff" style="--swatch-color:#2176ff" aria-label="Azul" aria-pressed="true"></button>
+          <button class="poll-color-swatch" type="button" data-poll-color="#6d5dfc" style="--swatch-color:#6d5dfc" aria-label="Violeta" aria-pressed="false"></button>
+          <button class="poll-color-swatch" type="button" data-poll-color="#e14b7b" style="--swatch-color:#e14b7b" aria-label="Rosa" aria-pressed="false"></button>
+          <button class="poll-color-swatch" type="button" data-poll-color="#e78a24" style="--swatch-color:#e78a24" aria-label="Naranja" aria-pressed="false"></button>
+          <button class="poll-color-swatch" type="button" data-poll-color="#169b78" style="--swatch-color:#169b78" aria-label="Verde" aria-pressed="false"></button>
+          <label class="poll-custom-color" title="Elegir otro color">＋<input id="pollCustomColor" type="color" value="#2176ff" aria-label="Elegir color personalizado"></label>
+        </div>
+      </fieldset>
+      <button class="poll-publish" type="submit">Publicar encuesta</button>
+      <p id="pollStatus" class="poll-status" role="status" aria-live="polite"></p>
+    </form>
+  </details>
+
+  <div id="postImagePreviewContainer" aria-live="polite" aria-atomic="true" style="display:none; position:relative; max-width:100%; margin-top:8px; border:1px solid #2176FF; border-radius:12px; overflow:hidden; padding:12px 12px 64px; box-sizing:border-box;">
+    <div id="postImagePreviewGrid" class="post-image-preview-grid"></div>
+    <p id="postMediaSelectionLabel" class="post-media-selection-label"></p>
+    <button id="uploadPostImageBtn" type="button" aria-label="Confirmar publicación de imágenes" style="display:none; position:absolute; bottom:12px; left:50%; transform:translateX(-50%); padding:8px 16px; background:#2176FF; border:none; border-radius:8px; color:white; font-weight:600; cursor:pointer; z-index:10; width:auto; min-width:120px;">Subir</button>
+  </div>
+</section>
+
+<style>
+  /* Ajustes para móvil */
+  @media (max-width: 480px) {
+    #postForm {
+      flex-direction: row;
+      align-items: center;
+      gap: 2px;
+    }
+    #postImageBtn {
+      width: 40px;
+      height: 40px;
+      font-size: 22px;
+      padding: 0;
+      line-height: 40px;
+    }
+    #postSubmitBtn {
+      min-width: 70px;
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 6px;
+    }
+    #postInput {
+      flex-grow: 1;
+      min-height: 40px;
+      font-size: 14px;
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+  }
+</style>
+
+    <section id="homeSection" aria-live="polite" aria-label="Publicaciones" tabindex="0">
+      <button id="closeHomeBtn" class="closeSectionBtn" aria-label="Cerrar inicio">×</button>
+      <div id="postsContainer"></div>
+      <aside id="friendSuggestions" aria-label="Sugerencias de amistad">
+        <div class="suggestions-heading">
+          <span class="suggestions-eyebrow">Descubre personas</span>
+          <h2>Sugerencias de amistad</h2>
+          <p>Conecta con personas de tu comunidad.</p>
+        </div>
+                <div id="suggestionsList" class="suggestions-list">
+          <p class="suggestions-empty">Cargando sugerencias…</p>
+        </div>
+        <section id="birthdayWidget" class="birthday-widget" aria-label="Próximos cumpleaños">
+          <div class="birthday-widget-icon" aria-hidden="true">🎂</div>
+          <div class="birthday-widget-copy">
+            <span class="suggestions-eyebrow">Tu círculo cercano</span>
+            <h3>Próximo cumpleaños</h3>
+            <p id="birthdayWidgetText">Buscando entre tus amigos…</p>
+          </div>
+          <button id="openBirthdayBtn" type="button" disabled>Ver celebración</button>
+        </section>
+      </aside>
+    </section>
+
+    <section id="usersSection" aria-label="Lista de usuarios">
+      <button id="closeUsersBtn" class="closeSectionBtn" aria-label="Cerrar usuarios">×</button>
+      <input type="text" id="searchUser" placeholder="Buscar usuario exacto" autocomplete="off" aria-label="Buscar usuario" />
+      <ul id="users"></ul>
+    </section>
+
+<section id="profileSection" class="hidden" aria-label="Perfil de usuario" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #2176FF, #64b5f6); color: white; padding: 24px 16px 16px 16px; box-sizing: border-box; overflow-y: auto; z-index: 11000; display: flex; flex-direction: column; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border-radius: 0; box-shadow: inset 0 0 30px rgba(0,0,0,0.3);">
+  <button id="closeProfileBtn" aria-label="Cerrar perfil" style="position: absolute; top: 16px; right: 16px; background: white; color: #2176FF; border: none; border-radius: 50%; width: 36px; height: 50px; font-size: 23px; font-weight: bold; line-height: 36px; text-align: center; cursor: pointer; user-select: none; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: background-color 0.3s ease, color 0.3s ease; z-index: 12000;">×</button>
+        <h3>Perfil de Usuario</h3>
+  <form id="profileForm">
+    <label for="profileName">Nombre completo:
+      <input type="text" id="profileName" autocomplete="off" />
+    </label>
+
+    <label for="profilePic">Foto de perfil:
+      <input type="file" id="profilePic" accept="image/*" />
+    </label>
+    <img id="profilePreview" alt="Vista previa foto perfil" />
+    
+
+    <label for="birthDate">Fecha de nacimiento:
+      <input type="date" id="birthDate" />
+    </label>
+
+    <label for="civilStatus">Estado civil:
+      <select id="civilStatus">
+        <option value="">Selecciona</option>
+        <option value="soltero">Soltero/a</option>
+        <option value="casado">Casado/a</option>
+        <option value="otro">Otro</option>
+      </select>
+    </label>
+
+    <label for="profileCareer">Carrera:
+      <input type="text" id="profileCareer" autocomplete="off" placeholder="Ejemplo: Ingeniería"/>
+    </label>
+
+    <label for="profileSemester">Semestre:
+      <select id="profileSemester">
+        <option value="">Selecciona</option>
+        <option value="Semestre 1">Semestre 1</option>
+        <option value="Semestre 2">Semestre 2</option>
+        <option value="Semestre 3">Semestre 3</option>
+        <option value="Semestre 4">Semestre 4</option>
+      </select>
+    </label>
+
+    <label for="birthPlace">Lugar de nacimiento:
+      <input type="text" id="birthPlace" autocomplete="off" />
+    </label>
+
+    <button type="submit">Guardar perfil</button>
+  </form>
+
+
+</section>
+
+
+
+    <!-- Carta de cumpleaños: se abre desde el módulo de cumpleaños o desde un enlace del chat. -->
+    <section id="birthdayModal" class="hidden birthday-modal" aria-label="Carta de cumpleaños" aria-modal="true">
+      <div class="birthday-modal-backdrop" data-close-birthday="true"></div>
+      <div class="birthday-letter-shell" role="dialog" aria-labelledby="birthdayLetterTitle">
+        <button id="closeBirthdayBtn" class="birthday-close" type="button" aria-label="Cerrar carta">×</button>
+        <div class="birthday-letter-confetti" aria-hidden="true">✦ ✧ ✦ ✧ ✦</div>
+        <div class="birthday-letter-header">
+          <span id="birthdayLetterKicker">Una celebración especial</span>
+          <h2 id="birthdayLetterTitle">¡Feliz cumpleaños!</h2>
+          <p id="birthdayLetterTo"></p>
+        </div>
+        <div class="birthday-letter-controls">
+          <label for="birthdayGender">Diseño de la carta
+            <select id="birthdayGender">
+              <option value="woman">Para mujer · Aurora floral</option>
+              <option value="man">Para hombre · Cielo nocturno</option>
+            </select>
+          </label>
+          <label for="birthdayMessage">Mensaje de felicitación
+            <textarea id="birthdayMessage" maxlength="500" rows="5" placeholder="Escribe un mensaje especial…"></textarea>
+          </label>
+          <p id="birthdayLetterFrom" class="birthday-from"></p>
+          <button id="sendBirthdayBtn" type="button" class="birthday-send">Enviar felicitación</button>
+          <p id="birthdayReadOnlyNote" class="birthday-readonly hidden">Esta carta es una celebración compartida y solo puede leerse.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sections notifications, messages, user info, manual modal, reaction modal, auth remain unchanged -->
+
+    <section id="notificationsSection" class="hidden" aria-label="Notificaciones" tabindex="0">
+      <div class="notifications-header">
+        <h2>Notificaciones</h2>
+        <button id="markAllReadBtn" style="background:#2176FF;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-weight:600;margin-right:8px;">Marcar todo como leído</button>
+        <button id="closeNotificationsBtn" class="closeBtn" aria-label="Cerrar notificaciones">×</button>
+      </div>
+      <ul id="notificationsList"></ul>
+    </section>
+
+        <section id="messagesSection" class="hidden" aria-label="Mensajes" tabindex="0">
+      <details id="messagesGroupsPanel" class="messages-groups-panel">
+        <summary>🎓 Grupos</summary>
+        <form id="groupForm" class="messages-group-form">
+          <input id="groupName" maxlength="60" required placeholder="Nombre del grupo" aria-label="Nombre del grupo">
+          <select id="groupType" aria-label="Organizar grupo por"><option value="career">Por carrera</option><option value="semester">Por semestre</option></select>
+          <input id="groupCategory" maxlength="60" required placeholder="Carrera o semestre" aria-label="Carrera o semestre">
+          <button type="submit">Crear grupo</button>
+        </form>
+        <div id="groupsList" class="campus-list messages-groups-list" aria-live="polite"></div>
+      </details>
+      <div id="usersInMessages"></div>
+      <div id="chatWindow" aria-label="Ventana de chat" hidden>
+
+                <div class="chat-header-bar">
+          <h3 id="chatWithName"></h3>
+          <div id="chatOptionsContainer" class="chat-options-container"></div>
+        </div>
+        <div id="chatMessages" tabindex="0" aria-live="polite"></div>
+        <form id="chatForm" enctype="multipart/form-data" style="display:flex; align-items:center; gap: 6px; flex-wrap: wrap;">
+          <label for="chatImageInput" class="chatImageLabel" title="Enviar imagen">🖼</label>
+          <input type="file" id="chatImageInput" accept="image/*" style="display:none" />
+          <img id="chatImagePreview" alt="Vista previa imagen a enviar" style="max-width: 100%; border-radius: 12px; margin-top: 8px; display: none; user-select:none;" />
+          <button type="button" id="chatImageClearBtn" title="Eliminar imagen" style="display:none; margin-top: 6px; background:#e63946; border:none; color:white; border-radius: 6px; cursor:pointer; font-weight: bold;">Eliminar imagen</button>
+          <input type="text" id="chatInput" autocomplete="off" placeholder="Escribe un mensaje..." style="flex-grow:1; min-width:140px; font-size:16px; padding:10px 15px; border-radius: 25px; border: 1px solid #999; box-sizing: border-box;" />
+          <button type="submit" style="padding: 10px 18px; border-radius: 25px; background: #2176FF; border: none; color: white; font-weight: 600; cursor: pointer; transition: background 0.3s ease; user-select: none; flex-shrink: 0;">Enviar</button>
+        </form>
+      </div>
+    </section>
+
+<section id="userInfoSection" class="hidden" aria-label="Perfil usuario completo" tabindex="0" 
+  style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+    background: linear-gradient(135deg, #2176FF 0%, #64b5f6 100%);
+    color: white; padding: 24px 32px; box-sizing: border-box; overflow-y: auto;
+    z-index: 12000; display: flex; flex-direction: column; align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+  <button id="closeUserInfoBtn" aria-label="Cerrar perfil usuario" 
+    style="position: fixed; top: 16px; right: 16px; background: rgba(255,255,255,0.9);
+      color: #2176FF; border: none; border-radius: 50%; width: 40px; height: 40px; 
+      font-size: 28px; font-weight: bold; line-height: 40px; text-align: center;
+      cursor: pointer; user-select: none; box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease, color 0.3s ease; z-index: 13000;">×</button>
+
+  <img id="userInfoPic" alt="Foto de perfil usuario"
+    style="width: 160px; height: 160px; border-radius: 50%; border: 4px solid white;
+      box-shadow: 0 0 20px rgba(255,255,255,0.9); object-fit: cover; margin-bottom: 24px;
+      user-select: none;"/>
+
+  <h2 id="userInfoName" style="font-size: 2.6rem; margin: 0 0 24px 0; text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    user-select: text;"></h2>
+
+  <div class="user-info-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px; width: 100%; max-width: 720px; margin-bottom: 32px;">
+    <div style="background: rgba(255,255,255,0.15); border-radius: 12px; padding: 16px; box-shadow: 0 0 10px rgba(255,255,255,0.3);">
+            <h3 style="margin-top: 0; font-weight: 700; font-size: 1.2rem;">Nombre de usuario</h3>
+      <p id="userInfoUsername" style="font-size: 1rem; user-select: text; margin: 8px 0 0 0;"></p>
+    </div>
+    <div style="background: rgba(255,255,255,0.15); border-radius: 12px; padding: 16px; box-shadow: 0 0 10px rgba(255,255,255,0.3);">
+      <h3 style="margin-top: 0; font-weight: 700; font-size: 1.2rem;">Fecha de nacimiento</h3>
+      <p id="userInfoBirthDate" style="font-size: 1rem; user-select: text; margin: 8px 0 0 0;"></p>
+    </div>
+  
+        <div style="background: rgba(255,255,255,0.15); border-radius: 12px; padding: 16px; box-shadow: 0 0 10px rgba(255,255,255,0.3);">
+      <h3 style="margin-top: 0; font-weight: 700; font-size: 1.2rem;">Estado civil</h3>
+      <p id="userInfoCivilStatus" style="font-size: 1rem; user-select: text; margin: 8px 0 0 0;"></p>
+    </div>
+    <div style="background: rgba(255,255,255,0.15); border-radius: 12px; padding: 16px; box-shadow: 0 0 10px rgba(255,255,255,0.3);">
+      <h3 style="margin-top: 0; font-weight: 700; font-size: 1.2rem;">Correo electrónico</h3>
+      <p id="userInfoEmail" style="font-size: 1rem; user-select: text; margin: 8px 0 0 0;"></p>
+    </div>
+  
+   <div style="background: rgba(255,255,255,0.15); border-radius: 12px; padding: 16px; box-shadow: 0 0 10px rgba(255,255,255,0.3);">
+   <h3 style="margin-top: 0; font-weight: 700; font-size: 1.2rem;">Carrera</h3>
+  <p id="userInfoCareer" style="font-size: 1rem; user-select: text; margin: 8px 0 0 0;"></p>
+</div>
+
+<div style="background: rgba(255,255,255,0.15); border-radius: 12px; padding: 16px; box-shadow: 0 0 10px rgba(255,255,255,0.3);">
+  <h3 style="margin-top: 0; font-weight: 700; font-size: 1.2rem;">Semestre</h3>
+  <p id="userInfoSemester" style="font-size: 1rem; user-select: text; margin: 8px 0 0 0;"></p>
+</div>
+   
+    <div style="background: rgba(255,255,255,0.15); border-radius: 12px; padding: 16px; box-shadow: 0 0 10px rgba(255,255,255,0.3);">
+      <h3 style="margin-top: 0; font-weight: 700; font-size: 1.2rem;">Lugar de nacimiento</h3>
+      <p id="userInfoBirthPlace" style="font-size: 1rem; user-select: text; margin: 8px 0 0 0;"></p>
+    </div>
+  </div>
+  
+
+  <h3 style="align-self: flex-start; font-weight: 700; font-size: 1.8rem; margin-bottom: 12px;">Publicaciones</h3>
+  <div id="profileUserPosts" 
+    style="width: 100%; max-width: 720px; display: flex; flex-direction: column; gap: 14px; user-select: text;">
+    <!-- Aquí se cargan las publicaciones de ese usuario -->
+  </div>
+</section>
+
+
+
+<section id="manualModal" class="hidden" aria-label="Manual de Uso" style="position: fixed; top:50%; left:50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #2176FF, #64b5f6); border-radius: 20px; box-shadow: 0 8px 30px rgba(33, 118, 255, 0.5); width: 360px; max-width: 90vw; padding: 24px; z-index: 2000; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; user-select: text;">
+
+  <button id="closeManualBtn" style="position: absolute; top: -9px; right: 16px; font-size: 30px; background: transparent; border:none; color: white; cursor: pointer; user-select:none; transition: color 0.3s ease;" aria-label="Cerrar manual">×</button>
+
+  <h2 style="text-align: center; margin-bottom: 18px; text-shadow: 0 0 8px rgba(255,255,255,0.7);">Manual de Uso</h2>
+  <p style="font-size: 15px; line-height: 1.5; margin-bottom: 16px;">
+    Bienvenido a <strong>CONECTA</strong>. Aquí puedes:
+  </p>
+  <ul style="font-size: 14px; margin-left: 20px; margin-bottom: 20px; list-style-type: disc; user-select: text;">
+    <li>Publicar mensajes, fotos e imágenes en el inicio.</li>
+    <li>Ver, reaccionar y comentar publicaciones.</li>
+    <li>Buscar y agregar amigos.</li>
+    <li>Chatear con amigos en tiempo real (textos - audios).</li>
+    <li>Ver notificaciones de distintas actividades en tiempo real.</li>
+    <li>Gestionar tu perfil, foto e información.</li>
+    <li>Alternar entre modo oscuro y claro.</li>
+  </ul>
+  <p style="font-size: 13px; opacity: 0.9; text-align: center; font-style: italic; user-select: text;">
+    🪬 APP WEB desarrollada por Carlos Restrepo. 
+   
+  </p> Nueva Red social Web.
+
+  <!-- Background Silhouettes -->
+  <svg aria-hidden="true" style="position: absolute; bottom: 10px; right: 10px; width: 120px; height: 120px; opacity: 0.12; pointer-events: none; user-select: none;">
+    <g fill="white" filter="url(#blur)" style="animation: floatUpDown 6s ease-in-out infinite alternate;">
+      <path d="M20 40c5-10 15-10 20 0s15 10 20 0" stroke="white" stroke-width="2" fill="none"/>
+      <circle cx="20" cy="40" r="4"/>
+      <circle cx="40" cy="40" r="4"/>
+      <circle cx="60" cy="40" r="4"/>
+    </g>
+    <defs>
+      <filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="1.6" />
+      </filter>
+    </defs>
+  </svg>
+  <svg aria-hidden="true" style="position: absolute; top: 10px; left: 10px; width: 140px; height: 140px; opacity: 0.1; pointer-events: none; user-select: none;">
+    <g fill="white" filter="url(#blur2)" style="animation: floatSideToSide 5s ease-in-out infinite alternate;">
+      <rect x="0" y="50" width="30" height="20" rx="4" ry="4" />
+      <rect x="35" y="55" width="30" height="20" rx="4" ry="4" />
+      <rect x="70" y="50" width="30" height="20" rx="4" ry="4" />
+    </g>
+    <defs>
+      <filter id="blur2" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="1.4" />
+      </filter>
+    </defs>
+  </svg>
+
+  <style>
+    @keyframes floatUpDown {
+      0% {
+        transform: translateY(0px);
+        opacity: 0.12;
+      }
+      100% {
+        transform: translateY(-12px);
+        opacity: 0.18;
+      }
+    }
+    @keyframes floatSideToSide {
+      0% {
+        transform: translateX(0);
+        opacity: 0.1;
+      }
+      100% {
+        transform: translateX(10px);
+        opacity: 0.14;
+      }
+    }
+    #closeManualBtn:hover {
+      color: #ffd700;
+    }
+  </style>
+</section>
+
+    <section id="settingsModal" class="settings-modal hidden" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+      <div class="settings-modal-backdrop" data-close-settings="true"></div>
+      <div class="settings-panel">
+        <button id="closeSettingsBtn" class="settings-close" type="button" aria-label="Cerrar configuración">×</button>
+        <div class="settings-panel-heading"><span>⚙️</span><div><small>Preferencias de tu cuenta</small><h2 id="settingsModalTitle">Configuración</h2></div></div>
+        <div class="settings-grid">
+          <button id="btnLanguageSettings" class="settings-card" type="button"><b>🌐 Configuración de idioma</b><span>Español o English</span></button>
+          <button id="btnPrivacyPolicies" class="settings-card" type="button"><b>🛡️ Políticas de privacidad</b><span>Consulta cómo protegemos tus datos</span></button>
+          <button id="btnActiveStatus" class="settings-card" type="button"><b>🟢 Estado activo</b><span id="activeStatusSummary">Visible para tus amigos</span></button>
+          <button id="btnAccountPrivacy" class="settings-card" type="button"><b>🔒 Privacidad de la cuenta</b><span>Controla quién ve tu información</span></button>
+          <button id="btnInviteFriendFromSettings" class="settings-card" type="button"><b>🤝 Invitar amigo</b><span>Copia o comparte el enlace de CONECTA</span></button>
+                    <button id="btnTermsSettings" class="settings-card" type="button"><b>📄 Términos y condiciones</b><span>Consulta las condiciones de uso de CONECTA</span></button>
+                    <button id="btnCampusFeatures" class="settings-card" type="button"><b>🎓 Comunidad universitaria</b><span>Eventos y moderación</span></button>
+          <button id="btnAcademicPortals" class="settings-card" type="button"><b>📚 Portales académicos</b><span>Acceso a plataformas universitarias</span></button>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="settingsDetailModal" class="settings-modal hidden" role="dialog" aria-modal="true" aria-labelledby="settingsDetailTitle">
+      <div class="settings-modal-backdrop" data-close-settings-detail="true"></div>
+      <div class="settings-detail-panel">
+        <button id="closeSettingsDetailBtn" class="settings-close" type="button" aria-label="Cerrar ventana">×</button>
+        <h2 id="settingsDetailTitle"></h2>
+        <div id="settingsDetailContent"></div>
+      </div>
+    </section>
+
+    <section id="reactionsViewModal" class="hidden" aria-label="Reacciones de la publicación" style="position: fixed; top: 50%; left: 50%; max-width: 320px; width: 90vw; max-height: 70vh; overflow-y: auto; background: white; border-radius: 10px; box-shadow: 0 6px 15px rgba(0,0,0,0.3); padding: 16px; transform: translate(-50%, -50%); z-index: 10001;">
+      <button id="closeReactionsViewBtn" aria-label="Cerrar Reacciones" style="position: absolute; top: 8px; right: 12px; font-size: 26px; background: transparent; border:none; cursor: pointer; user-select:none;">×</button>
+      <h2>Reacciones</h2>
+      <ul id="reactionsViewList" style="list-style:none; padding-left:0;"></ul>
+    </section>
+
+<section id="authSection" aria-label="Autenticación">
+  <h2>Iniciar sesión</h2>
+ <form id="loginForm" aria-label="Formulario de inicio de sesión">
+  <label for="loginUser">Correo electrónico:</label>
+  <input id="loginUser" type="email" autocomplete="email" required />
+  <label for="loginPass">Contraseña:</label>
+  <input id="loginPass" type="password" autocomplete="current-password" required />
+  <button type="submit">Iniciar sesión</button>
+  <p id="loginError" role="alert" style="color:red;"></p>
+  <!-- Agregar el enlace para restablecer contraseña -->
+  <button type="button" id="forgotPasswordBtn" style="margin-top: 10px; background: transparent; border: none; color: #2176FF; cursor: pointer; text-decoration: underline;">¿Olvidaste tu contraseña?</button>
+</form>
+
+  <button id="openRegisterBtn" style="background: #e63946; color: white; width: 100%; padding: 12px; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; user-select: none;">Regístrate</button>
+         <div id="authBgTextContainer" aria-hidden="true">
+  <span class="authBgText" style="top: 10%; left: 5%; animation: moveX1 6s infinite alternate;">CONECTA</span>
+  <span class="authBgText" style="top: 30%; left: 40%; animation: moveY1 5s infinite alternate;">CONECTA</span>
+  <span class="authBgText" style="top: 50%; left: 20%; animation: moveX2 7s infinite alternate;">CONECTA</span>
+  <span class="authBgText" style="top: 70%; left: 70%; animation: moveY2 6.5s infinite alternate;">CONECTA</span>
+  <span class="authBgText" style="top: 85%; left: 10%; animation: moveX1 7.5s infinite alternate;">CONECTA</span>
+</div>
+</section>
+
+<!-- Cambia este estilo inline en #registerFullScreen -->
+<section id="registerFullScreen" class="hidden" aria-label="Registro de usuario" style="
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  z-index: 2000;
+  box-sizing: border-box;
+  padding: 20px;
+  width: 480px;       /* Tamaño fijo, similar al authSection */
+  max-width: 90vw;    /* Adaptable en móvil */
+  height: auto;       /* Ajusta para contenido */
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  overflow-y: auto;
+">
+  <h2>Registrar usuario</h2>
+  <form id="registerForm" aria-label="Formulario de registro">
+    <label for="regUser">Correo electrónico:</label>
+    <input id="regUser" type="email" autocomplete="email" required />
+    <label for="regPass">Contraseña:</label>
+    <input id="regPass" type="password" autocomplete="new-password" required />
+    <label for="regPassConfirm">Confirmar contraseña:</label>
+    <input id="regPassConfirm" type="password" autocomplete="new-password" required />
+    <button type="submit" style="margin-top: 12px;">Registrarse</button>
+    <p id="registerError" role="alert" style="color:red;"></p>
+  </form>
+  <button id="closeRegisterBtn" aria-label="Cerrar registro" style="margin-top: 20px; background: #555; color: white; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; user-select: none;">Cerrar</button>
+</section>
+
+<script>
+    const authSection = document.getElementById('authSection');
+  const authLogo = document.getElementById('authLogo');
+
+  function logoFadeIn() {
+    if (authLogo) authLogo.style.animation = 'logoFadeIn 0.6s forwards';
+  }
+
+  new MutationObserver(() => {
+    if (!authSection.classList.contains('hidden')) logoFadeIn();
+  }).observe(authSection, { attributes: true, attributeFilter: ['class'] });
+  const openRegisterBtn = document.getElementById('openRegisterBtn');
+  const registerFullScreen = document.getElementById('registerFullScreen');
+  const closeRegisterBtn = document.getElementById('closeRegisterBtn');
+
+  openRegisterBtn.addEventListener('click', () => {
+    registerFullScreen.classList.remove('hidden');
+    document.getElementById('authSection').classList.add('hidden');
+  });
+
+  closeRegisterBtn.addEventListener('click', () => {
+    registerFullScreen.classList.add('hidden');
+    document.getElementById('authSection').classList.remove('hidden');
+  });
+</script>
+    </div>
+
+  <section id="storyViewer" class="story-viewer hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Visor de historias">
+    <button id="storyViewerClose" class="story-viewer-close" type="button" aria-label="Cerrar historias">×</button>
+    <button id="storyViewerPrev" class="story-viewer-nav story-viewer-prev" type="button" aria-label="Historia anterior">‹</button>
+    <button id="storyViewerNext" class="story-viewer-nav story-viewer-next" type="button" aria-label="Siguiente historia">›</button>
+    <div class="story-viewer-content">
+      <div id="storyViewerProgress" class="story-viewer-progress" aria-hidden="true"></div>
+      <header class="story-viewer-header"><div><strong id="storyViewerAuthor"></strong><small id="storyViewerTime"></small></div>
+        <button id="storyViewerViews" class="story-viewer-views" type="button" aria-label="Ver quién vio esta historia"></button>
+        <button id="storyViewerDelete" class="story-viewer-delete hidden" type="button">Eliminar historia</button>
+      </header>
+      <div id="storyViewerMedia" class="story-viewer-media"></div>
+      <p id="storyViewerText" class="story-viewer-text"></p>
+      <section id="storyViewerViewers" class="story-viewer-viewers hidden" aria-label="Personas que vieron la historia"></section>
+    </div>
+  </section>
+  <section id="imageLightbox" class="image-lightbox hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Galería de imágenes">
+    <button id="closeImageLightbox" class="image-lightbox-close" type="button" aria-label="Cerrar galería">×</button>
+    <div class="image-lightbox-backdrop" data-close-lightbox="true"></div>
+    <div id="imageLightboxGallery" class="image-lightbox-gallery"></div>
+  </section>
+
+        <script type="module" src="script.js"></script>
+  <script type="module" src="push-notifications.js"></script>
+  <script type="module" src="story-composer-ui.js"></script>
+  <script type="module" src="campus-features.js"></script>
+  <script type="module" src="polls.js"></script>
+  <script>
+    // Menú de reacciones contextual: queda debajo del botón que se mantiene presionado.
+    document.addEventListener('pointerdown', (event) => {
+      const reactionButton = event.target.closest('.reaction-icon');
+      if (!reactionButton) return;
+
+      const post = reactionButton.closest('.post');
+      if (!post) return;
+
+      requestAnimationFrame(() => {
+        const popup = post.querySelector('.reaction-popup:not(.hidden)');
+        if (!popup) return;
+
+        post.style.overflow = 'visible';
+        const postRect = post.getBoundingClientRect();
+        const buttonRect = reactionButton.getBoundingClientRect();
+        popup.style.left = `${buttonRect.left - postRect.left}px`;
+        popup.style.top = `${buttonRect.bottom - postRect.top + 8}px`;
+        popup.style.right = 'auto';
+        popup.style.bottom = 'auto';
+      });
+    }, true);
+
+    // Sonido breve generado con Web Audio: no requiere archivos externos.
+    let reactionAudioContext;
+    function playReactionSound() {
+      try {
+        reactionAudioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+        const context = reactionAudioContext;
+        if (context.state === 'suspended') context.resume();
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(520, context.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(880, context.currentTime + 0.09);
+        gain.gain.setValueAtTime(0.0001, context.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.12, context.currentTime + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.14);
+        oscillator.connect(gain).connect(context.destination);
+        oscillator.start();
+        oscillator.stop(context.currentTime + 0.15);
+      } catch (_) {
+        // Algunos navegadores pueden bloquear Web Audio; la reacción continúa funcionando.
+      }
+    }
+
+    document.addEventListener('click', (event) => {
+      const selectedReaction = event.target.closest('.reaction-popup button');
+      if (!selectedReaction) return;
+
+      playReactionSound();
+      selectedReaction.classList.remove('reaction-selected');
+      void selectedReaction.offsetWidth;
+      selectedReaction.classList.add('reaction-selected');
+
+      const post = selectedReaction.closest('.post');
+      if (post) {
+        post.classList.remove('reaction-completed');
+        void post.offsetWidth;
+        post.classList.add('reaction-completed');
+      }
+    }, true);
+  </script>
+    <script>
+    // Start the decorative splash immediately; do not wait for the Firebase module graph.
+  (() => {
+    const splashOverlay = document.getElementById('splashOverlay');
+    const splashScreen = document.getElementById('splashScreen');
+    const loadingPercent = document.getElementById('loadingPercent');
+    const runner = document.getElementById('runner');
+    const app = document.getElementById('app');
+
+    let duration = 120; // Keep the decorative splash brief; the application is already loaded.
+    let start = null;
+
+    
+// El compositor permanece dentro del flujo normal y se desplaza junto con el contenido.
+
+    function animateProgress(timestamp) {
+      if (!start) start = timestamp;
+      let elapsed = timestamp - start;
+      let progress = Math.min(elapsed / duration, 1);
+      let percent = Math.floor(progress * 100);
+      loadingPercent.textContent = percent + '%';
+
+      // Mueve corredor de 0 a 230px
+      const maxLeft = 230;
+      runner.style.left = (maxLeft * progress) + 'px';
+
+      if (progress < 1) {
+        requestAnimationFrame(animateProgress);
+      } else {
+        // Oculta splash y muestra app
+        splashOverlay.style.opacity = '0';
+        splashScreen.style.opacity = '0';
+                splashOverlay.style.display = 'none';
+        splashOverlay.setAttribute('aria-busy', 'false');
+        splashScreen.style.display = 'none';
+        app.style.display = 'flex';
+      }
+    }
+        requestAnimationFrame(animateProgress);
+  })();
+
+    
+  </script>
+    <style>
+    /* El desplazamiento principal pertenece a la página, no a un panel interno. */
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      width: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background: #add8e6;
+      font-family: Arial, sans-serif;
+    }
+
+    #app {
+      min-height: 100dvh;
+      height: auto;
+      overflow: visible;
+    }
+  </style>
+  
+
+</body>
+
+</html>

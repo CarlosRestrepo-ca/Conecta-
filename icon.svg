@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">CONECTA</title>
+  <desc id="desc">Icono de la aplicación CONECTA</desc>
+  <rect width="512" height="512" rx="112" fill="#2176ff"/>
+  <circle cx="256" cy="256" r="148" fill="#fff" opacity=".96"/>
+  <path d="M185 214c0-38 31-69 69-69h42c38 0 69 31 69 69v28c0 38-31 69-69 69h-42c-38 0-69-31-69-69v-28Z" fill="#2176ff"/>
+  <path d="m185 333 47-33h64l-47 58-64 18v-43Z" fill="#2176ff"/>
+  <circle cx="232" cy="228" r="12" fill="#fff"/>
+  <circle cx="280" cy="228" r="12" fill="#fff"/>
+  <circle cx="328" cy="228" r="12" fill="#fff"/>
+</svg>

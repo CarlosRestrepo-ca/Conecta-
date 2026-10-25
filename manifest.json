@@ -1,0 +1,29 @@
+{
+  "id": "./",
+  "name": "CONECTA",
+  "short_name": "CONECTA",
+  "description": "Nueva Red social Web - CONECTA",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#add8e6",
+  "theme_color": "#2176FF",
+  "orientation": "any",
+  "lang": "es",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "https://uploads.onecompiler.io/44amdv2fa/44amdvnzz/LOgo%20-%20PNG.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://uploads.onecompiler.io/44amdv2fa/44amdvnzz/LOgo%20-%20PNG.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
